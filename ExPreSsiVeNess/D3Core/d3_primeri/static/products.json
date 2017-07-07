@@ -1,0 +1,50 @@
+{
+    "imeFirme":"Firma1",
+    "PIB":"12356842",
+    "adresa": {
+        "ulicnaAdresa": "Jastrebacka 18",
+        "grad": "Novi Sad"
+    },
+    "telefon": "064/0245896",
+    "proizvodi": [
+        {
+            "naziv": "proizvod 1",
+            "opis": [
+                {
+                    "tip": "tip1",
+                    "cene": [
+                        {"nabavna": "6253.22"},
+                        {"prodajna": "8888.20"}
+                    ]
+                },
+                {
+                    "kolicina": "20",
+                    "jediniceMjere": [
+                        {"kg": "kilogram"}
+                    ]
+                }
+            ]
+        },
+        {
+            "naziv": "proizvod 2",
+            "opis": [
+                {
+                    "tip": "tip2",
+                    "cene": [
+                        {"nabavna": "9000"},
+                        {"prodajna": "9500"}
+                    ]
+                },
+                {
+                    "kolicina": "5",
+                    "jediniceMjere": [
+                        {"kg": "kilogram"},
+                        {"t": "tona"}
+                    ]
+                }
+            ]
+        }
+    ]
+
+
+}

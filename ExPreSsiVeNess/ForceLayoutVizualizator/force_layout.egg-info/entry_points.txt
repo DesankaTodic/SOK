@@ -1,0 +1,3 @@
+[kod.vizualizator]
+force_layout_kod = force_layout_vizualizator.force_kod.force_layout_kod:ForceLayout
+

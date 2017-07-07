@@ -1,0 +1,15 @@
+ {% if values %}
+    {%for n,values2 in values.items %}
+            "node_{{n.id}}":{name:"node_{{n.id}}",naziv:"{{n.label}}",text:"{{n.text}}",
+
+           kategorije:[
+            {% for a in n.attributes.all %}
+               {name:"attribute_{{a.id}}",naziv:"{{a.name}}",vrednost:"{{a.value}}" },
+            {% endfor %}
+            ]
+            },
+          {%with values=values2 template_name="force_layout_nodes.html" %}
+               {%include template_name%}
+          {%endwith%}
+     {%endfor%}
+ {% endif %}

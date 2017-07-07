@@ -1,0 +1,11 @@
+setup.py
+force_layout.egg-info/PKG-INFO
+force_layout.egg-info/SOURCES.txt
+force_layout.egg-info/dependency_links.txt
+force_layout.egg-info/entry_points.txt
+force_layout.egg-info/requires.txt
+force_layout.egg-info/top_level.txt
+force_layout.egg-info/zip-safe
+force_layout_vizualizator/__init__.py
+force_layout_vizualizator/force_kod/__init__.py
+force_layout_vizualizator/force_kod/force_layout_kod.py

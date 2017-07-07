@@ -1,0 +1,3 @@
+[kod.ucitati]
+ucitavanje_kod = ucitavanje.kod.ucitavanje_kod:UcitatiXMLIzvor
+

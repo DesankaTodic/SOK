@@ -1,0 +1,3 @@
+[kod.vizualizator]
+tree_layout_kod = tree_layout_vizualizator.tree_kod.tree_layout_kod:TreeLayout
+

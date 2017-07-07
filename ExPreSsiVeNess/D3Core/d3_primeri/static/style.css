@@ -1,0 +1,61 @@
+svg{
+  border:1px black solid;
+  }
+
+.header-right{
+  position: absolute;
+  top: 10px;
+  right: 0px;
+  width:20%;
+  height:200px;
+}
+.header, .footer{
+  background-color: lightblue;
+  clear: left;
+  width:84%;
+  border: solid black 1px;
+}
+
+
+.center{
+margin-top: 1%;
+float:left;
+}
+
+
+.page{
+  text-align: center;
+  margin: auto;
+  min-width: 50%;
+  width: 90%;
+}
+
+table{
+  margin: 0 auto;
+}
+
+.label{
+ clear: left;
+}
+
+.greska{
+  color: red;
+}
+
+#ucitavanje_submit {
+    width: 150px;  height: 20px;
+}
+
+#ucitavanje_text {
+    width: 500px;  height: 15px;
+}
+input::placeholder {
+  color: #E0E0E0;
+}
+
+.selected {
+    color:red;
+}
+.not-selected {
+    color:black;
+}

@@ -1,0 +1,23 @@
+
+         {% for n2,values2 in values.items %}
+        {name:"node_{{n2.id}}",
+           tekst:"{{n2.text}}",
+         naziv:"{{n2}}",
+            atributi:[
+                {% for a in n2.attributes.all %}
+                {name:"attribute_{{a.id}}",naziv:"{{a.name}}",vrednost:"{{a.value}}" },
+                {% endfor %}
+                ],
+         {% if values2 %}
+          children:[
+                {%with values=values2 template_name="tree_layout_template.html" %}
+                    {%include template_name%}
+                {%endwith%}
+            ]
+            {% endif %}
+            }
+            {%if forloop.counter < values|length %}
+            ,
+            {% endif %}
+            {% endfor %}
+        

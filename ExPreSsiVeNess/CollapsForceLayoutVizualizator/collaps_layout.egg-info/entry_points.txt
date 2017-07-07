@@ -1,0 +1,3 @@
+[kod.vizualizator]
+collaps_layout_kod = collaps_layout_vizualizator.collaps_kod.collaps_layout_kod:CollapsLayout
+

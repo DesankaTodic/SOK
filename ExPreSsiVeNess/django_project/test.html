@@ -1,0 +1,147 @@
+
+                {% extends "base.html" %}
+        {% block head_sadrzaj %}
+        <style>
+
+        .node {
+          cursor: pointer;
+          color: #3182bd;
+
+        }
+
+        .link {
+          fill: none;
+          stroke: #9ecae1;
+          stroke-width: 1.5px;
+        }
+
+        </style>
+        <script>
+            function nodeClick(el){
+            if(el.attributes.tekst.value==""){
+               alert("ID: "+el.id);
+               }else{
+               alert("ID: "+el.id+" text: "+el.attributes.tekst.value);
+               }
+            }
+        </script>
+        {% endblock %}
+        {% block content %}
+        <div>
+            <svg width="700" height="700">
+
+            </svg>
+        </div>
+        <script>
+            var nodes={
+            "root_{{root.id}}":{name:"root_{{root.id}}",naziv:"{{root.label}}",text:"{{root.text}}",
+            kategorije:[
+                {% for a in root.attributes.all %}
+                       {name:"attribute_{{a.id}}",naziv:"{{a.name}}",vrednost:"{{a.value}}" },
+                    {% endfor %}
+            ]},
+            {% for n,values in nodes.items %}
+               "node_{{n.id}}":{name:"node_{{n.id}}",naziv:"{{n.label}}",text:"{{n.text}}",
+
+                   kategorije:[
+                    {% for a in n.attributes.all %}
+                       {name:"attribute_{{a.id}}",naziv:"{{a.name}}",vrednost:"{{a.value}}" },
+                    {% endfor %}
+                    ]
+                },
+               {%include "force_layout_nodes.html" %}
+
+            {% endfor %}
+            };
+
+            var links=[
+                {% for n,values in nodes.items %}
+                      {source:"root_{{root.id}}",target:"node_{{n.id}}"},
+                       {%include "force_layout_links.html" %}
+                {% endfor %}
+            ];
+
+             links.forEach(function(link) {
+                link.source = nodes[link.source];
+                link.target = nodes[link.target];
+            });
+
+            var force = d3.layout.force() //kreiranje force layout-a
+                .size([700, 700]) //raspoloziv prostor za iscrtavanje
+                .nodes(d3.values(nodes)) //dodaj nodove
+                .links(links) //dodaj linkove
+                .on("tick", tick) //sta treba da se desi kada su izracunate nove pozicija elemenata
+                .linkDistance(500) //razmak izmedju elemenata
+                .charge(-100)//koliko da se elementi odbijaju
+                .start(); //pokreni izracunavanje pozicija
+
+            var svg=d3.select('svg');
+            // add the links
+            var link = svg.selectAll('.link')
+                .data(links)
+                .enter().append('line')
+                .attr('class', 'link');
+
+            // add the nodes
+            var node = svg.selectAll('.node')
+                .data(force.nodes()) //add
+                .enter().append('g')
+                .attr('class', 'node')
+                .attr('id', function(d){return d.name;})
+                .attr('tekst', function(d){return d.text;})
+                .on('click',function(){
+                   nodeClick(this);
+                });
+            d3.selectAll('.node').each(function(d){slozenPrikaz(d);});
+
+            function slozenPrikaz(d){
+              var duzina=150;
+              var brKategorija=d.kategorije.length;
+
+              var textSize=10;
+              var visina=(brKategorija==0)?textSize:brKategorija*textSize;
+              visina+=textSize;
+
+              //Ubacivanje pravougaonika
+              d3.select("g#"+d.name).append('rect').
+              attr('x',0).attr('y',0).attr('width',duzina).attr('height',visina)
+              .attr('fill','yellow');
+              //Ubacivanje naziva cvora
+              d3.select("g#"+d.name).append('text').attr('x',duzina/2).attr('y',10)
+              .attr('text-anchor','middle')
+              .attr('font-size',textSize).attr('font-family','sans-serif')
+              .attr('fill','green').text(d.naziv);
+
+              //Ubacivanje razdelnika
+              d3.select("g#"+d.name).append('line').
+              attr('x1',0).attr('y1',textSize).attr('x2',duzina).attr('y2',textSize)
+              .attr('stroke','gray').attr('stroke-width',2);
+
+              //Ubacivanje teksta za atribute
+                for(var i=0;i<brKategorija;i++)
+                {
+                   //Ubacivanje naziva atributa=vrednost
+                  d3.select("g#"+d.name).append('text').attr('x',0).attr('y',20+i*textSize)
+                  .attr('text-anchor','start')
+                  .attr('font-size',textSize).attr('font-family','sans-serif')
+                  .attr('fill','green').text(d.kategorije[i].naziv+" = "+d.kategorije[i].vrednost);
+
+                }
+
+            }
+
+
+            function tick(e) {
+
+                node.attr("transform", function(d) {return "translate(" + d.x + "," + d.y + ")";})
+                    .call(force.drag);
+
+                link.attr('x1', function(d) { return d.source.x; })
+                    .attr('y1', function(d) { return d.source.y; })
+                    .attr('x2', function(d) { return d.target.x; })
+                    .attr('y2', function(d) { return d.target.y; });
+
+            }
+        </script>
+        {% endblock %}
+                

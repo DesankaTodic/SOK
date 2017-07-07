@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <script type="text/javascript" src="https://d3js.org/d3.v3.js"></script>
+    <link rel="stylesheet" href="{% static 'style.css' %}"/>
+    <title>{{title}}</title>
+    {% block head_sadrzaj %}{% endblock %}
+</head>
+
+<body>
+
+<div class="page">
+      <div class="header">
+          <div><h2 >Extensible Platform for Structure Visualization and Navigation </h2>
+                            <a href="{% url 'index' %}">ExPreSsiVeNess home</a>
+
+             <div><p>Unesite putanju do izvora podataka: </p>
+                    {% if plugini_ucitavanje %}
+                        {% for p in plugini_ucitavanje %}
+                        <form method="post" action="{% url 'ucitavanje_plugin' id=p.identifier%}">
+                            {% csrf_token %}
+                            <div class="unos"><input type="text" id="ucitavanje_text" name="putanja_izvora"  placeholder=""/>
+                            <input type="submit" id="ucitavanje_submit" value="{{p.naziv}}"/>
+                             </div>
+                        </form>
+                        {% endfor %}
+
+                    {% else %}
+                        <h3>Nema prepoznatih plugina za ucitavanje</h3>
+                    {% endif %}
+             </div>
+
+              <div><p>Plugini vizualizatori: </p>
+                    {% if plugini_vizualizatori %}
+                        {% for p in plugini_vizualizatori %}
+                        <div>
+                             <a href="{% url 'viz_plugin' id=p.identifier%}">{{p.naziv}}</a>
+                      </div>
+                        {% endfor %}
+
+                    {% else %}
+                        <h3>Nema prepoznatih plugina za vizualizaciju</h3>
+                    {% endif %}
+             </div>
+          </div>
+
+          <div>
+                 <form method="post" action="{% url 'search' %}">
+                            {% csrf_token %}
+                            <div class="unos"><input type="text" id="search_text" name="search_text"/>
+                            <input type="submit" value="Search"/>
+                             </div>
+                        </form>
+
+                 <form method="post" action="{% url 'filter' %}">
+                            {% csrf_token %}
+                            <div class="unos"><input type="text" id="filter_text" name="filter_text"/>
+                            <input type="submit" value="Filter"/>
+                             </div>
+                        </form>
+
+          </div>
+      </div>
+
+      <div align="left" class="header-right">
+          {% block links %}{% endblock %}
+           <ul>
+            {%for node in node_data%}
+             <div id={{node.id}} class="not-selected">
+
+            <li>Node: {{node.id}} {{node.label}} </li>
+            <ul>
+                {%for attribute in node.attributes.all%}
+                <li>name: {{attribute.name}},value: {{attribute.value}} </li>
+
+                {%endfor%}
+
+                </ul>
+                 </div>
+            {%endfor%}
+        </ul>
+      </div>
+
+      <div class="center">
+          {% block content %}{% endblock %}
+      </div>
+      <div class="footer">Tim3 / Projektni zadatak iz predmeta Softverski obrasci i komponente</div>
+</div>
+<script>
+    if({{nodes_id}}!='undefined'){
+        var nodes_id={{nodes_id}};
+        for(i=0;i<nodes_id.length;i++){
+            document.getElementById(nodes_id[i]).className="selected";
+        }
+    }
+
+
+</script>
+</body>
+</html>
